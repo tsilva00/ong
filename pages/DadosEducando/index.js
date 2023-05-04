@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Pressable, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, Pressable, FlatList, Alert } from "react-native";
 import { db } from "../../components/config";
 import styles from "./style"
 import { doc, collection, getDocs, deleteDoc } from 'firebase/firestore';
@@ -9,6 +9,29 @@ import { FontAwesome } from "@expo/vector-icons";
 export default function DadosEducando({ navigation }) {
   //state que vai receber as nossas tasks quando carregar
   const [task, setTask] = useState([])
+  const [showBox, setShowBox] = useState(true);
+
+  const showConfirmDialog = (id) => {
+    return Alert.alert(
+      "Are your sure?",
+      "Are you sure you want to remove this beautiful box?",
+      [
+        // The "Yes" button
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteTask(id)
+          },
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
+
 
   //carregar toda vez que carreagar os elementos
   getDocs(collection(db, "Alunos")).then(docSnap => {
@@ -37,12 +60,10 @@ export default function DadosEducando({ navigation }) {
             <View style={styles.Tasks}>
               <TouchableOpacity
                 style={styles.deleteTask}
-                onPress={() => {
-                  deleteTask(item.id)
-                }}
+                onPress={() => showConfirmDialog(item.id)}
               >
               <FontAwesome
-                name="star"
+                name="trash"
                 size={23}
                 color="orange"
               >
