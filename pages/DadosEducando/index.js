@@ -13,8 +13,8 @@ export default function DadosEducando({ navigation }) {
 
   const showConfirmDialog = (id) => {
     return Alert.alert(
-      "Are your sure?",
-      "Are you sure you want to remove this beautiful box?",
+      "Deletar",
+      "Tem certeza que quer deletar esse cadastro?",
       [
         // The "Yes" button
         {
